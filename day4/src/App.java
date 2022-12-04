@@ -1,27 +1,51 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
 public class App {
-    public static void main(String[] args) throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader("C:/Users/victo/Desktop/advocode/day4/input.txt"));
-        String line;
+
+    static int solveFirstPart(String[] lines) throws NumberFormatException, IOException {
         Integer sum = 0;
 
-        while ((line = reader.readLine()) != null) {
-            String[] tokens1 = line.split(",");
-            String[] tokens2 = tokens1[0].split("-");
-            String[] tokens3 = tokens1[1].split("-");
-
-            if ((Integer.parseInt(tokens2[1]) <= Integer.parseInt(tokens3[0])
-                    && Integer.parseInt(tokens3[1]) <= Integer.parseInt(tokens2[0]))
+        for (var line : lines) {
+            String[] tokens = line.split(",|\\-");
+            if ((Integer.parseInt(tokens[0]) <= Integer.parseInt(tokens[2])
+                    && Integer.parseInt(tokens[1]) >= Integer.parseInt(tokens[3]))
                     ||
-                    (Integer.parseInt(tokens2[1]) >= Integer.parseInt(tokens3[0])
-                            && Integer.parseInt(tokens3[1]) >= Integer.parseInt(tokens2[0]))) {
+                    (Integer.parseInt(tokens[0]) >= Integer.parseInt(tokens[2])
+                            && Integer.parseInt(tokens[1]) <= Integer.parseInt(tokens[3]))) {
                 sum = sum + 1;
             }
-
         }
+
+        return sum;
+    }
+
+    static int solveSecondPart(String[] lines) throws NumberFormatException, IOException {
+        Integer sum = 0;
+
+        for (String line : lines) {
+            String[] tokens = line.split(",|\\-");
+            if ((Integer.parseInt(tokens[1]) <= Integer.parseInt(tokens[2])
+                    && Integer.parseInt(tokens[3]) <= Integer.parseInt(tokens[0]))
+                    ||
+                    (Integer.parseInt(tokens[1]) >= Integer.parseInt(tokens[2])
+                            && Integer.parseInt(tokens[3]) >= Integer.parseInt(tokens[0]))) {
+                sum = sum + 1;
+            }
+        }
+
+        return sum;
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        BufferedReader reader = new BufferedReader(new FileReader("./day4/input.txt"));
+        String[] lines = reader.lines().toArray(String[]::new);
+        System.out.println(solveFirstPart(lines));
+        System.out.println(solveSecondPart(lines));
+
         reader.close();
-        System.out.println(sum);
+
     }
 }
